@@ -1,17 +1,13 @@
 {
   "site": {
-    "title": "My Blog",
+    "title": "Kuroha's Blog",
     "description": "一个基于 Astro 的个人博客",
-    "description_en": "A personal blog built with Astro",
-    "domain": ""
+    "description_en": "A personal blog built with Astro"
   },
   "author": {
     "name": "你的名字",
     "name_en": "Your Name",
     "location": "China",
-    "githubUsername": "",
-    "email": "",
-    "googleScholar": "",
     "blogStartDate": "2026-10-11"
   },
   "home": {
@@ -24,8 +20,7 @@
         "subheading": "你的学位 / 职位",
         "subheading_en": "Your Degree / Position",
         "date": "开始时间 - 结束时间",
-        "date_en": "Start Date - End Date",
-        "href": ""
+        "date_en": "Start Date - End Date"
       }
     ]
   }
