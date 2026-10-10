@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "dev:check": "astro check --watch & astro dev",
-    "build:base": "astro check && astro build",
+    "build:base": "astro check && astro build --force",
     "build": "npm run build:base",
     "build:vercel": "npm run build:base",
     "build:cloudflare": "npm run build:base",
