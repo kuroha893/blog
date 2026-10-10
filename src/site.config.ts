@@ -12,7 +12,7 @@ export const theme: ThemeUserConfig = {
   description: profile.site.description,
   description_en: profile.site.description_en,
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
-  favicon: '/favicon/favicon.ico',
+  favicon: profile.site.favicon,
   /** Specify the default language for this site. */
   locale: {
     lang: 'en-US',
@@ -42,13 +42,7 @@ export const theme: ThemeUserConfig = {
 
   /** Configure the header of your site. */
   header: {
-    menu: [
-      { title: 'Blog', link: '/blog/research' },
-      { title: 'Academic', link: '/academic' },
-      { title: 'Projects', link: '/projects' },
-      { title: 'Links', link: '/links' },
-      { title: 'About', link: '/about' }
-    ]
+    menu: profile.settings.menu
   },
 
   /** Configure the footer of your site. */
@@ -62,9 +56,7 @@ export const theme: ThemeUserConfig = {
     /** Enable displaying a "Astro & Axi theme powered" link in your site's footer. */
     credits: true,
     /** Optional details about the social media accounts for this site. */
-    social: profile.author.githubUsername
-      ? { github: `https://github.com/${profile.author.githubUsername}` }
-      : {}
+    social: profile.social
   },
 
   content: {
@@ -107,7 +99,12 @@ export const integ: IntegrationUserConfig = {
       { name: 'Name', val: theme.title },
       { name: 'Desc', val: theme.description || 'Null' },
       { name: 'Link', val: `https://${theme.personal?.domains?.main || 'example.com'}` },
-      { name: 'Avatar', val: `https://${theme.personal?.domains?.main || 'example.com'}/avatar/avatar.png` }
+      {
+        name: 'Avatar',
+        val: /^https?:/.test(profile.author.avatar)
+          ? profile.author.avatar
+          : `https://${theme.personal?.domains?.main || 'example.com'}${profile.author.avatar}`
+      }
     ]
   },
   // Enable page search function
@@ -137,9 +134,9 @@ export const integ: IntegrationUserConfig = {
   },
   // Comment system
   waline: {
-    enable: false,
+    enable: profile.settings.comments.enable,
     // Server service link
-    server: 'https://waline.example.com/',
+    server: profile.settings.comments.server,
     // Refer https://waline.js.org/en/guide/features/emoji.html
     emoji: ['bmoji', 'weibo'],
     // Refer https://waline.js.org/en/reference/client/props.html

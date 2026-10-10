@@ -19,6 +19,7 @@ import remarkGfm from 'remark-gfm'
 import { outputCopier } from './src/plugins/output-copier.ts'
 // Local rehype & remark plugins
 import rehypeAutolinkHeadings from './src/plugins/rehype-auto-link-headings.ts'
+import remarkSitePlaceholders from './src/plugins/remark-site-placeholders.ts'
 // Shiki
 import {
   addCopyButton,
@@ -86,7 +87,7 @@ export default defineConfig({
   },
   // Markdown Options
   markdown: {
-    remarkPlugins: [remarkMath, remarkGfm],
+    remarkPlugins: [remarkMath, remarkGfm, remarkSitePlaceholders],
     rehypePlugins: [
       rehypeHeadingIds,
       [rehypeKatex, {}],

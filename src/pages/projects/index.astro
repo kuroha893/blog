@@ -37,5 +37,5 @@ const headings = [{ depth: 2, slug: 'projects', text: 'Projects' }]
     })
   }
 
-  await loadPageviewCount()
+  if (walineServer) await loadPageviewCount()
 </script>

@@ -2,13 +2,17 @@
   "site": {
     "title": "Kuroha's Blog",
     "description": "一个基于 Astro 的个人博客",
-    "description_en": "A personal blog built with Astro"
+    "description_en": "A personal blog built with Astro",
+    "domain": "blog-pi-ten-89.vercel.app",
+    "favicon": ""
   },
   "author": {
-    "name": "你的名字",
-    "name_en": "Your Name",
+    "name": "Kuroha",
+    "name_en": "Kuroha",
     "location": "China",
-    "blogStartDate": "2026-10-11"
+    "blogStartDate": "2026-10-11",
+    "githubUsername": "kuroha893",
+    "avatar": ""
   },
   "home": {
     "about": "在此处写入你的个人介绍。建议内容超过一行以获得更好的视觉效果。",
@@ -23,5 +27,6 @@
         "date_en": "Start Date - End Date"
       }
     ]
-  }
+  },
+  "social": []
 }

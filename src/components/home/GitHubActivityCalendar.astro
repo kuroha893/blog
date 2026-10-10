@@ -95,11 +95,17 @@ function getMonthLabels(weeks: Array<Array<GitHubActivityDay>>) {
 }
 
 const { username } = Astro.props as Props
-const data = await fetchData(username)
+let data: GitHubActivityApiResponse | null = null
+try {
+  data = await fetchData(username)
+  if (!data.contributions?.length) data = null
+} catch (error) {
+  console.warn(`[GitHubActivityCalendar] ${error instanceof Error ? error.message : error}`)
+}
 
-const activities = data.contributions
-const totalCount = data.total.lastYear
-const activityYear = getYear(parseISO(activities[0].date))
+const activities = data?.contributions ?? []
+const totalCount = data?.total.lastYear ?? 0
+const activityYear = activities.length > 0 ? getYear(parseISO(activities[0].date)) : 0
 
 const blockSize = 12
 const blockMargin = 4
@@ -112,6 +118,9 @@ const width = weeks.length * (blockSize + blockMargin) - blockMargin
 const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
 const monthLabels = getMonthLabels(weeks)
 ---
+
+{data && (
+<Fragment>
 
 <div class="overflow-x-auto w-full" style="max-width: 90vw;">
   <svg class='block' width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -187,3 +196,5 @@ const monthLabels = getMonthLabels(weeks)
     <span>More</span>
   </div>
 </footer>
+</Fragment>
+)}

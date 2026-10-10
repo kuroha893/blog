@@ -1,4 +1,5 @@
 ---
+import profile from '@/data/site-profile'
 import type { MarkdownHeading } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
@@ -38,7 +39,7 @@ const socialImage = heroImage
   ? typeof heroImage.src === 'string'
     ? heroImage.src
     : heroImage.src.src
-  : '/images/social-card.png'
+  : profile.site.socialImage
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString()
 const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 ---

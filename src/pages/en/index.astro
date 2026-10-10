@@ -1,10 +1,8 @@
 ---
-import { Image } from 'astro:assets'
 import { Button, Card, Icon, Label, Spoiler } from '@/components/user'
 import BlogStats from '@/components/home/BlogStats.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import Section from '@/components/home/Section.astro'
-import avatar from '@/assets/avatar.png'
 import config from '@/site-config'
 import profile from '@/data/site-profile'
 import GitHubActivityCalendar from '@/components/home/GitHubActivityCalendar.astro'
@@ -14,10 +12,10 @@ import GitHubActivityCalendar from '@/components/home/GitHubActivityCalendar.ast
   <main class='flex w-full flex-col items-center'>
     <section class='animate mb-10 flex flex-col items-center gap-y-7' id='content-header'>
       <div class='flex flex-row items-center gap-x-6'>
-        <Image
-          src={avatar}
+        <img
+          src={profile.author.avatar}
           alt='profile'
-          class='h-36 w-auto rounded-lg border p-1'
+          class='h-36 w-36 rounded-lg border object-cover p-1'
           loading='eager'
         />
         <div class='flex flex-col gap-y-4'>

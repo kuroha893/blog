@@ -59,7 +59,8 @@ function getLocalizedUrl(locale: string | undefined, path: string) {
       <div class='flex flex-col items-center justify-center md:flex-row'>
         {
           (config.header?.menu || []).map((item: any) => {
-            const isBlogMenu = item.link === '/blog/research' || item.title === 'Blog'
+            const isBlogMenu = item.link === '/blog' || item.link.startsWith('/blog/')
+            if (isBlogMenu && categories.length === 0) item = { ...item, link: '/archives' }
             if (isBlogMenu && categories.length > 0) {
               return (
                 <div class='menu-item-with-dropdown relative w-full md:w-fit' style='position: relative;'>

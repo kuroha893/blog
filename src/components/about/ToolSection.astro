@@ -9,7 +9,7 @@ interface Props {
     name: string
     description: string
     href: string
-    icon: Promise<typeof import('*.svg?raw')>
+    icon?: Promise<typeof import('*.svg?raw')>
   }[]
 }
 
@@ -34,10 +34,16 @@ const { class: className, title, tools, ...props } = Astro.props
           target='_blank'
         >
           <div class='flex items-center gap-x-3 rounded-lg border border-transparent px-1.5 py-1 transition-colors hover:border-border hover:bg-muted'>
-            <Svg
-              src={tool.icon}
-              class='size-10 rounded-lg bg-primary-foreground fill-foreground p-2'
-            />
+            {tool.icon ? (
+              <Svg
+                src={tool.icon}
+                class='size-10 rounded-lg bg-primary-foreground fill-foreground p-2'
+              />
+            ) : (
+              <div class='flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary-foreground text-lg font-medium text-foreground'>
+                {tool.name.charAt(0).toUpperCase()}
+              </div>
+            )}
             <div class='z-20 flex flex-col'>
               <div class='font-medium text-foreground'>{tool.name}</div>
               <div class='font-normal'>{tool.description}</div>

@@ -4,6 +4,7 @@
 import { prod } from '@/utils/server'
 import type { SiteMeta } from '@/types'
 import config from '@/site-config'
+import profile from '@/data/site-profile'
 
 type Props = SiteMeta
 
@@ -11,7 +12,7 @@ const { articleDate, description, ogImage, title } = Astro.props
 
 const siteTitle = `${title} ${config.titleDelimiter} ${config.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.webp', Astro.url).href
+const socialImageURL = new URL(ogImage ? ogImage : profile.site.socialImage, Astro.url).href
 ---
 
 <meta charset='utf-8' />
@@ -20,9 +21,8 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.webp', A
 <title>{siteTitle}</title>
 
 {/* Icons / Favicon */}
-<link rel='apple-touch-icon' sizes='180x180' href='/favicon/favicon.ico' />
-<link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon.ico' />
-<link rel='icon' type='image/png' sizes='16x16' href='/favicon/favicon.ico' />
+<link rel='icon' href={profile.site.favicon} />
+<link rel='apple-touch-icon' sizes='180x180' href='/favicon/favicon-256x256.png' />
 <link rel='manifest' href='/favicon/site.webmanifest' />
 
 {/* Font preloads */}

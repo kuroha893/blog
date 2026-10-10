@@ -35,7 +35,18 @@ export function getAboutPage(lang: Lang) {
         url: str(d.url).replace(/^https?:\/\//, '').replace(/\/$/, ''),
         platform: str(d.platform) || 'default'
       }))
-      .filter((d) => d.url)
+      .filter((d) => d.url),
+    toolsTitle: str(data.toolsTitle) || 'Tools',
+    tools: list(data.tools)
+      .map((t) => ({
+        name: str(t.name),
+        description: str(t.description),
+        href: str(t.href),
+        // Name of a bundled icon in src/assets/tools (without .svg); optional
+        icon: str(t.icon).toLowerCase()
+      }))
+      .filter((t) => t.name),
+    showCopyright: data.showCopyright !== false
   }
 }
 
@@ -46,6 +57,8 @@ export function getProjectsPage(lang: Lang) {
       .map((p) => ({
         name: localized(p.name, p.name_en, lang),
         description: localized(p.description, p.description_en, lang),
+        // Uploaded through the CMS as a site-absolute path, e.g. /media/cover.png
+        image: /^(\/|https?:\/\/)/.test(str(p.image)) ? str(p.image) : undefined,
         links: links(p.links, 'site')
       }))
       .filter((p) => p.name)

@@ -8,5 +8,21 @@
       "url": "blog-pi-ten-89.vercel.app",
       "platform": "Vercel"
     }
-  ]
+  ],
+  "toolsTitle": "Productivity",
+  "tools": [
+    {
+      "name": "VS Code",
+      "description": "Code Editor",
+      "href": "https://code.visualstudio.com/",
+      "icon": "vscode"
+    },
+    {
+      "name": "Chrome",
+      "description": "Web Browser",
+      "href": "https://www.google.com/chrome/",
+      "icon": "chrome"
+    }
+  ],
+  "showCopyright": true
 }

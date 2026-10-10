@@ -1,11 +1,126 @@
 # Pages CMS configuration — https://pagescms.org/docs/configuration/
-# Edit content at https://app.pagescms.org after connecting this repository.
+# Edit content at https://app.pagescms.org
+#
+# Notes for whoever edits this file:
+# - Pages CMS removes empty fields when it saves. The site reads every data file
+#   through src/data/site-*.ts, which supplies defaults, so that is safe.
+# - This file is checked against Pages CMS's own config schema before each change.
 
 media:
-  input: public/media
-  output: /media
+  # Images used inside posts and on pages; served as-is from /media/...
+  - name: site
+    label: 图片库
+    input: public/media
+    output: /media
+    rename: safe
+  # Post and collection covers; resolved and optimized by Astro at build time
+  - name: covers
+    label: 封面图
+    input: src/assets/covers
+    output: '@/assets/covers'
+    extensions: [png, jpg, jpeg, webp, gif, avif]
+    rename: safe
 
 content:
+  # ───────────── 写作 ─────────────
+  - name: posts
+    label: 文章
+    type: collection
+    path: src/content/blogs
+    subfolders: false
+    format: yaml-frontmatter
+    # The filename (without .mdx) is the post URL: my-post.mdx -> /blog/my-post
+    filename: &postFilename
+      template: '{year}{month}{day}-post.mdx'
+      field: true
+    view: &postView
+      fields: [title, publishDate, category]
+      primary: title
+      sort: [publishDate, title]
+      default:
+        sort: publishDate
+        order: desc
+    fields: &postFields
+      - { name: title, label: 标题, type: string, required: true, description: 最多 60 个字符。 }
+      - { name: description, label: 摘要, type: text, required: true, description: 最多 160 个字符，显示在文章列表里。 }
+      - { name: publishDate, label: 发布日期, type: date, required: true }
+      - { name: updatedDate, label: 更新日期, type: date }
+      - name: category
+        label: 分类
+        type: select
+        options:
+          values:
+            - { value: tech, label: Technical }
+            - { value: research, label: Research }
+            - { value: daily, label: Daily Life }
+            - { value: journal, label: Month Journal }
+      - { name: tags, label: 标签, type: string, list: true }
+      - { name: draft, label: 草稿（不发布）, type: boolean, default: false }
+      - { name: comment, label: 允许评论, type: boolean, default: true }
+      - name: heroImage
+        label: 封面
+        type: object
+        fields:
+          - name: src
+            label: 封面图
+            type: image
+            options:
+              media: covers
+          - { name: alt, label: 图片说明, type: string }
+          - { name: color, label: 主色调, type: string, description: '十六进制颜色，例如 #4F504C。可留空。' }
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+          media: site
+
+  # An English version is optional. Give it the same filename as the Chinese post.
+  - name: posts_en
+    label: 文章（英文版）
+    type: collection
+    path: src/content/blogs/en
+    subfolders: false
+    format: yaml-frontmatter
+    filename: *postFilename
+    view: *postView
+    fields: *postFields
+
+  - name: collections
+    label: 专栏
+    type: collection
+    path: src/content/collection
+    subfolders: false
+    format: yaml-frontmatter
+    filename:
+      template: 'collection-{year}{month}{day}.md'
+      field: true
+    view:
+      fields: [title]
+      primary: title
+    fields:
+      - { name: title, label: 标题（中文）, type: string, required: true }
+      - { name: title_en, label: 标题（英文）, type: string }
+      - { name: description, label: 描述（中文）, type: text }
+      - { name: description_en, label: 描述（英文）, type: text }
+      - name: heroImage
+        label: 封面
+        type: object
+        fields:
+          - name: src
+            label: 封面图
+            type: image
+            options:
+              media: covers
+          - { name: alt, label: 图片说明, type: string }
+      - name: bloglist
+        label: 包含的文章
+        type: string
+        list: true
+        description: 填文章的文件名（不带 .mdx），例如 my-first-post。按填写顺序排列。
+      - { name: body, label: 正文, type: rich-text, options: { format: markdown, media: site } }
+
+  # ───────────── 站点 ─────────────
   - name: profile
     label: 站点信息
     type: file
@@ -16,24 +131,37 @@ content:
         label: 站点
         type: object
         fields:
-          - { name: title, label: 站点名称, type: string, required: true }
+          - { name: title, label: 站点名称, type: string, required: true, description: 显示在左上角和浏览器标签页。 }
           - { name: description, label: 站点描述（中文）, type: string }
           - { name: description_en, label: 站点描述（英文）, type: string }
           - name: domain
             label: 域名
             type: string
-            description: 不带 https://，例如 example.com。还没有域名就留空。
+            description: 不带 https://，例如 example.com。影响站点地图、RSS 和分享链接。
+          - name: favicon
+            label: 站点图标
+            type: image
+            description: 浏览器标签页上的小图标。建议正方形 PNG 或 SVG。留空使用默认图标。
+            options:
+              media: site
+              extensions: [png, svg, ico, jpg, jpeg, gif]
       - name: author
         label: 作者
         type: object
         fields:
           - { name: name, label: 名字（中文）, type: string, required: true }
           - { name: name_en, label: 名字（英文）, type: string }
+          - name: avatar
+            label: 头像
+            type: image
+            description: 显示在首页。建议正方形。留空使用默认头像。
+            options:
+              media: site
           - { name: location, label: 所在地, type: string }
           - name: githubUsername
             label: GitHub 用户名
             type: string
-            description: 留空则不显示 GitHub 按钮和贡献日历。
+            description: 用于首页的 GitHub 按钮和贡献日历。留空则两者都不显示。
           - name: email
             label: 邮箱
             type: string
@@ -45,14 +173,46 @@ content:
           - name: blogStartDate
             label: 建站日期
             type: date
+            description: 用于首页的“已运行天数”。
+      - name: social
+        label: 页脚社交链接
+        description: 显示在页脚右侧。GitHub 和 RSS 会自动添加，不用在这里填。
+        type: object
+        list:
+          collapsible:
+            summary: '{platform}'
+        fields:
+          - name: platform
+            label: 平台
+            type: select
+            options:
+              values:
+                - { value: email, label: Email }
+                - { value: x, label: X (Twitter) }
+                - { value: bilibili, label: Bilibili }
+                - { value: zhihu, label: 知乎 }
+                - { value: weibo, label: 微博 }
+                - { value: telegram, label: Telegram }
+                - { value: discord, label: Discord }
+                - { value: youtube, label: YouTube }
+                - { value: instagram, label: Instagram }
+                - { value: bluesky, label: Bluesky }
+                - { value: reddit, label: Reddit }
+                - { value: steam, label: Steam }
+                - { value: gitlab, label: GitLab }
+                - { value: tiktok, label: TikTok }
+                - { value: netease, label: 网易云音乐 }
+                - { value: coolapk, label: 酷安 }
+          - { name: url, label: 链接, type: string, description: 完整网址；平台选 Email 时直接填邮箱地址。 }
       - name: home
         label: 首页
         type: object
         fields:
           - { name: about, label: 自我介绍（中文）, type: text }
-          - { name: about_en, label: 自我介绍（英文）, type: text }
+          - { name: about_en, label: 自我介绍（英文）, type: text, description: 留空则英文页显示中文。 }
           - name: education
             label: 教育 / 工作经历
+            description: 全部删除则隐藏该节。
             type: object
             list:
               collapsible:
@@ -64,8 +224,39 @@ content:
               - { name: subheading_en, label: 学位 / 职位（英文）, type: string }
               - { name: date, label: 时间（中文）, type: string }
               - { name: date_en, label: 时间（英文）, type: string }
-              - { name: href, label: 链接, type: string, description: 可留空。 }
+              - { name: href, label: 链接, type: string, description: 完整网址，可留空。 }
 
+  - name: settings
+    label: 导航与评论
+    type: file
+    path: src/data/settings.json
+    format: json
+    fields:
+      - name: menu
+        label: 导航栏
+        description: 顶部菜单，按此顺序显示。删掉某一项即从导航栏隐藏该页面。
+        type: object
+        list:
+          collapsible:
+            summary: '{title}'
+        fields:
+          - { name: title, label: 显示文字, type: string, required: true }
+          - name: link
+            label: 链接
+            type: string
+            required: true
+            description: 站内页面以 / 开头：/blog、/academic、/projects、/links、/about、/archives、/tags、/collection。也可填完整网址。
+      - name: comments
+        label: 评论（Waline）
+        type: object
+        fields:
+          - { name: enable, label: 开启评论, type: boolean, default: false }
+          - name: server
+            label: Waline 服务端地址
+            type: string
+            description: 例如 https://waline.example.com 。需要先自行部署 Waline；地址为空时评论保持关闭。
+
+  # ───────────── 页面 ─────────────
   - name: about
     label: About 页面
     type: file
@@ -90,6 +281,35 @@ content:
             type: select
             options:
               values: [Vercel, GitHub, Cloudflare, Vultr, Other]
+      - { name: toolsTitle, label: “工具”分组标题, type: string }
+      - name: tools
+        label: 工具
+        description: 显示在“工具”一节。全部删除则隐藏该节。
+        type: object
+        list:
+          collapsible:
+            summary: '{name}'
+        fields:
+          - { name: name, label: 名称, type: string, required: true }
+          - { name: description, label: 描述, type: string }
+          - { name: href, label: 链接, type: string }
+          - name: icon
+            label: 图标
+            type: select
+            description: 不选则显示名称首字母。
+            options:
+              values:
+                - { value: vscode, label: VS Code }
+                - { value: cursor, label: Cursor }
+                - { value: chrome, label: Chrome }
+                - { value: chatgpt, label: ChatGPT }
+                - { value: ubuntu, label: Ubuntu }
+                - { value: archlinux, label: Arch Linux }
+      - name: showCopyright
+        label: 显示版权声明
+        type: boolean
+        default: true
+        description: 声明本站原创内容采用 CC BY-NC-SA 4.0 协议。
 
   - name: projects
     label: Projects 页面
@@ -108,6 +328,12 @@ content:
           - { name: name_en, label: 名称（英文）, type: string }
           - { name: description, label: 描述（中文）, type: text }
           - { name: description_en, label: 描述（英文）, type: text }
+          - name: image
+            label: 配图
+            type: image
+            description: 可选。显示为卡片右上角的小图和悬停背景。
+            options:
+              media: site
           - name: links
             label: 链接
             type: object
@@ -225,82 +451,6 @@ content:
               - { name: href, label: 网址, type: string }
               - { name: label, label: 按钮文字, type: string }
 
-  - name: posts
-    label: 文章
-    type: collection
-    path: src/content/blogs
-    subfolders: true
-    format: yaml-frontmatter
-    # The filename (without .mdx) becomes the post URL: my-post.mdx -> /blog/my-post
-    # Use lowercase letters, digits and hyphens. Do not name a post "index".
-    filename:
-      template: '{year}{month}{day}-post.mdx'
-      field: true
-    view:
-      fields: [title, publishDate, category]
-      primary: title
-      sort: [publishDate, title]
-      default:
-        sort: publishDate
-        order: desc
-    fields:
-      - { name: title, label: 标题, type: string, required: true, description: 最多 60 个字符。 }
-      - { name: description, label: 摘要, type: text, required: true, description: 最多 160 个字符。 }
-      - { name: publishDate, label: 发布日期, type: date, required: true }
-      - { name: updatedDate, label: 更新日期, type: date }
-      - name: category
-        label: 分类
-        type: select
-        options:
-          values:
-            - { value: tech, label: Technical }
-            - { value: research, label: Research }
-            - { value: daily, label: Daily Life }
-            - { value: journal, label: Month Journal }
-      - { name: tags, label: 标签, type: string, list: true }
-      - name: language
-        label: 语言
-        type: select
-        options:
-          values:
-            - { value: zh, label: 中文 }
-            - { value: en, label: English }
-      - { name: draft, label: 草稿（不发布）, type: boolean, default: false }
-      - { name: comment, label: 允许评论, type: boolean, default: true }
-      - name: heroImage
-        label: 封面图
-        type: object
-        fields:
-          - { name: src, label: 图片地址, type: string, description: 图片链接（https://…）或相对文章的路径（./cover.png）。 }
-          - { name: alt, label: 图片说明, type: string }
-          - { name: color, label: 主色调, type: string, description: '十六进制颜色，例如 #4F504C。可留空。' }
-      - name: body
-        label: 正文
-        type: rich-text
-        options:
-          format: markdown
-
-  - name: collections
-    label: 专栏
-    type: collection
-    path: src/content/collection
-    format: yaml-frontmatter
-    filename: '{primary}.md'
-    view:
-      fields: [title]
-      primary: title
-    fields:
-      - { name: title, label: 标题（中文）, type: string, required: true }
-      - { name: title_en, label: 标题（英文）, type: string }
-      - { name: description, label: 描述（中文）, type: text }
-      - { name: description_en, label: 描述（英文）, type: text }
-      - name: bloglist
-        label: 包含的文章
-        type: string
-        list: true
-        description: 填文章的文件夹名，例如 my-new-post。
-      - { name: body, label: 正文, type: rich-text, options: { format: markdown } }
-
   - name: links
     label: 友链
     type: file
@@ -314,7 +464,7 @@ content:
           collapsible:
             summary: '{desc}'
         fields:
-          - { name: id_name, label: 分组 ID, type: string }
+          - { name: id_name, label: 分组 ID, type: string, description: 英文短名，例如 friends。 }
           - { name: desc, label: 分组名称, type: string }
           - name: link_list
             label: 链接
