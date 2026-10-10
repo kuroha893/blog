@@ -1,6 +1,6 @@
 {
-  "name": "Axi404",
-  "short_name": "Axi404",
+  "name": "My Blog",
+  "short_name": "Blog",
   "icons": [
     { "src": "/favicon/favicon-256x256.png", "sizes": "256x256", "type": "image/png" }
   ],

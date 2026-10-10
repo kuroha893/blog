@@ -3,7 +3,7 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import AlgorithmShowcase from '@/components/about/AlgorithmShowcase.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 import { Comment } from '@/components/advanced'
-import { Button, DistributionSection, Spoiler } from '@/components/user'
+import { DistributionSection, Spoiler } from '@/components/user'
 
 const headings = [
   { depth: 2, slug: 'distribution', text: 'Distribution' },
@@ -31,7 +31,6 @@ const distributions = [
   <p>
     在这里写下你的个人简介。你可以介绍你的教育背景、研究方向、工作经历或者兴趣爱好。
   </p>
-  <Button title='赞助我' class='w-fit' href='/projects#sponsorship' style='ahead' />
   <h2 id='distribution'>网页分发<a class='anchor' href='#distribution'>#</a></h2>
   <p>
     为了提供更好的访问体验和可靠性，本站在多个平台进行了部署，您可以选择合适的镜像站点进行访问：

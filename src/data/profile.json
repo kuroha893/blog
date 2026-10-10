@@ -1,0 +1,32 @@
+{
+  "site": {
+    "title": "My Blog",
+    "description": "一个基于 Astro 的个人博客",
+    "description_en": "A personal blog built with Astro",
+    "domain": ""
+  },
+  "author": {
+    "name": "你的名字",
+    "name_en": "Your Name",
+    "location": "China",
+    "githubUsername": "",
+    "email": "",
+    "googleScholar": "",
+    "blogStartDate": "2026-10-11"
+  },
+  "home": {
+    "about": "在此处写入你的个人介绍。建议内容超过一行以获得更好的视觉效果。",
+    "about_en": "Write your personal introduction here. More than one line looks better.",
+    "education": [
+      {
+        "heading": "你的学校 / 组织",
+        "heading_en": "Your School / Organization",
+        "subheading": "你的学位 / 职位",
+        "subheading_en": "Your Degree / Position",
+        "date": "开始时间 - 结束时间",
+        "date_en": "Start Date - End Date",
+        "href": ""
+      }
+    ]
+  }
+}

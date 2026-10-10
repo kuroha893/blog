@@ -1,0 +1,169 @@
+# Pages CMS configuration — https://pagescms.org/docs/configuration/
+# Edit content at https://app.pagescms.org after connecting this repository.
+
+media:
+  input: public/media
+  output: /media
+
+content:
+  - name: profile
+    label: 站点信息
+    type: file
+    path: src/data/profile.json
+    format: json
+    fields:
+      - name: site
+        label: 站点
+        type: object
+        fields:
+          - { name: title, label: 站点名称, type: string, required: true }
+          - { name: description, label: 站点描述（中文）, type: string }
+          - { name: description_en, label: 站点描述（英文）, type: string }
+          - name: domain
+            label: 域名
+            type: string
+            description: 不带 https://，例如 example.com。还没有域名就留空。
+      - name: author
+        label: 作者
+        type: object
+        fields:
+          - { name: name, label: 名字（中文）, type: string, required: true }
+          - { name: name_en, label: 名字（英文）, type: string }
+          - { name: location, label: 所在地, type: string }
+          - name: githubUsername
+            label: GitHub 用户名
+            type: string
+            description: 留空则不显示 GitHub 按钮和贡献日历。
+          - name: email
+            label: 邮箱
+            type: string
+            description: 会公开显示在首页。留空则不显示。
+          - name: googleScholar
+            label: Google Scholar 链接
+            type: string
+            description: 留空则不显示。
+          - name: blogStartDate
+            label: 建站日期
+            type: date
+      - name: home
+        label: 首页
+        type: object
+        fields:
+          - { name: about, label: 自我介绍（中文）, type: text }
+          - { name: about_en, label: 自我介绍（英文）, type: text }
+          - name: education
+            label: 教育 / 工作经历
+            type: object
+            list:
+              collapsible:
+                summary: '{heading}'
+            fields:
+              - { name: heading, label: 学校 / 组织（中文）, type: string }
+              - { name: heading_en, label: 学校 / 组织（英文）, type: string }
+              - { name: subheading, label: 学位 / 职位（中文）, type: string }
+              - { name: subheading_en, label: 学位 / 职位（英文）, type: string }
+              - { name: date, label: 时间（中文）, type: string }
+              - { name: date_en, label: 时间（英文）, type: string }
+              - { name: href, label: 链接, type: string, description: 可留空。 }
+
+  - name: posts
+    label: 文章
+    type: collection
+    path: src/content/blogs
+    subfolders: true
+    format: yaml-frontmatter
+    # Each post lives in its own folder: <slug>/index.mdx (Chinese) and <slug>/index-en.mdx (English).
+    filename:
+      template: 'my-new-post/index.mdx'
+      field: create
+    view:
+      fields: [title, publishDate, category]
+      primary: title
+      sort: [publishDate, title]
+      default:
+        sort: publishDate
+        order: desc
+    fields:
+      - { name: title, label: 标题, type: string, required: true, description: 最多 60 个字符。 }
+      - { name: description, label: 摘要, type: text, required: true, description: 最多 160 个字符。 }
+      - { name: publishDate, label: 发布日期, type: date, required: true }
+      - { name: updatedDate, label: 更新日期, type: date }
+      - name: category
+        label: 分类
+        type: select
+        options:
+          values:
+            - { value: tech, label: Technical }
+            - { value: research, label: Research }
+            - { value: daily, label: Daily Life }
+            - { value: journal, label: Month Journal }
+      - { name: tags, label: 标签, type: string, list: true }
+      - name: language
+        label: 语言
+        type: select
+        options:
+          values:
+            - { value: zh, label: 中文 }
+            - { value: en, label: English }
+      - { name: draft, label: 草稿（不发布）, type: boolean, default: false }
+      - { name: comment, label: 允许评论, type: boolean, default: true }
+      - name: heroImage
+        label: 封面图
+        type: object
+        fields:
+          - { name: src, label: 图片地址, type: string, description: 图片链接（https://…）或相对文章的路径（./cover.png）。 }
+          - { name: alt, label: 图片说明, type: string }
+          - { name: color, label: 主色调, type: string, description: '十六进制颜色，例如 #4F504C。可留空。' }
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: collections
+    label: 专栏
+    type: collection
+    path: src/content/collection
+    format: yaml-frontmatter
+    filename: '{primary}.md'
+    view:
+      fields: [title]
+      primary: title
+    fields:
+      - { name: title, label: 标题（中文）, type: string, required: true }
+      - { name: title_en, label: 标题（英文）, type: string }
+      - { name: description, label: 描述（中文）, type: text }
+      - { name: description_en, label: 描述（英文）, type: text }
+      - name: bloglist
+        label: 包含的文章
+        type: string
+        list: true
+        description: 填文章的文件夹名，例如 my-new-post。
+      - { name: body, label: 正文, type: rich-text, options: { format: markdown } }
+
+  - name: links
+    label: 友链
+    type: file
+    path: public/links.json
+    format: json
+    fields:
+      - name: friends
+        label: 分组
+        type: object
+        list:
+          collapsible:
+            summary: '{desc}'
+        fields:
+          - { name: id_name, label: 分组 ID, type: string }
+          - { name: desc, label: 分组名称, type: string }
+          - name: link_list
+            label: 链接
+            type: object
+            list:
+              collapsible:
+                summary: '{name}'
+            fields:
+              - { name: name, label: 名称, type: string }
+              - { name: link, label: 网址, type: string }
+              - { name: avatar, label: 头像地址, type: string }
+              - { name: intro, label: 简介, type: string }

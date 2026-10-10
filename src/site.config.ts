@@ -1,15 +1,16 @@
+import profile from './data/profile.json'
 import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } from './types'
 
 export const theme: ThemeUserConfig = {
   // === Basic configuration ===
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: "Axi Theme 使用文档",
+  title: profile.site.title,
   /** Will be used in index page & copyright declaration */
-  author: 'Axi Theme',
-  author_en: 'Axi Theme',
+  author: profile.author.name,
+  author_en: profile.author.name_en,
   /** Description metadata for your website. Can be used in page metadata. */
-  description: 'Axi Theme 使用文档',
-  description_en: 'Axi Theme Documentation',
+  description: profile.site.description,
+  description_en: profile.site.description_en,
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
   favicon: '/favicon/favicon.ico',
   /** Specify the default language for this site. */
@@ -61,7 +62,9 @@ export const theme: ThemeUserConfig = {
     /** Enable displaying a "Astro & Axi theme powered" link in your site's footer. */
     credits: true,
     /** Optional details about the social media accounts for this site. */
-    social: { github: 'https://github.com/Axi404/Axi-Theme' }
+    social: profile.author.githubUsername
+      ? { github: `https://github.com/${profile.author.githubUsername}` }
+      : {}
   },
 
   content: {
@@ -76,18 +79,18 @@ export const theme: ThemeUserConfig = {
   /** Personal information configuration */
   personal: {
     /** Your location */
-    location: 'China',
+    location: profile.author.location,
     /** Your GitHub username */
-    githubUsername: 'Axi404',
+    githubUsername: profile.author.githubUsername,
     /** Your email address */
-    email: 'gaoning@pjlab.org.cn',
+    email: profile.author.email,
     /** Your Google Scholar profile URL */
-    googleScholar: 'https://scholar.google.com/citations?user=W9mT0rcAAAAJ&hl=zh-CN',
+    googleScholar: profile.author.googleScholar,
     /** Blog start date for statistics */
-    blogStartDate: '2024-06-15',
+    blogStartDate: profile.author.blogStartDate,
     /** Domain configuration */
     domains: {
-      main: 'theme.axi404.top',
+      main: profile.site.domain || 'example.com',
       // githubPages: '',
       // cloudflare: '',
       // friendCircle: '',

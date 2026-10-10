@@ -64,7 +64,7 @@ function getLocalizedUrl(locale: string | undefined, path: string) {
               return (
                 <div class='menu-item-with-dropdown relative w-full md:w-fit' style='position: relative;'>
                   <a
-                    href={getLocalizedUrl(Astro.currentLocale, item.link)}
+                    href={getLocalizedUrl(Astro.currentLocale, `/blog/${categories[0].slug}`)}
                     class='blog-menu-link flex w-full flex-none items-center justify-end py-2 font-medium transition-none hover:text-primary md:px-3 md:justify-center'
                     aria-label='Nav menu item'
                   >
