@@ -14,7 +14,9 @@ const allPosts = await getBlogCollection()
 const sortedPosts = sortMDByDate(allPosts)
 
 const today = new Date()
-const daysDiff = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+// The start date is a calendar date read as UTC midnight; around a date change the server
+// clock can still be before it, and a site cannot have been online for negative days.
+const daysDiff = Math.max(0, Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)))
 
 const lastUpdated = sortedPosts.length > 0 ? 
   new Date(sortedPosts[0].data.updatedDate || sortedPosts[0].data.publishDate) : 
