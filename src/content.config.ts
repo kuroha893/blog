@@ -38,14 +38,14 @@ const blogSchema = ({ image }: { image: () => any }) =>
   })
 
 const blog = defineCollection({
-  // Load Chinese version: index.md or index.mdx
-  loader: glob({ base: './src/content/blogs', pattern: '**/index.{md,mdx}' }),
+  // Load Chinese version: <slug>/index.{md,mdx}, or a flat <slug>.{md,mdx}
+  loader: glob({ base: './src/content/blogs', pattern: ['**/index.{md,mdx}', '*.{md,mdx}'] }),
   schema: blogSchema
 })
 
 const blogEn = defineCollection({
-  // Load English version: index-en.md or index-en.mdx
-  loader: glob({ base: './src/content/blogs', pattern: '**/index-en.{md,mdx}' }),
+  // Load English version: <slug>/index-en.{md,mdx}, or a flat en/<slug>.{md,mdx}
+  loader: glob({ base: './src/content/blogs', pattern: ['**/index-en.{md,mdx}', 'en/*.{md,mdx}'] }),
   schema: blogSchema
 })
 

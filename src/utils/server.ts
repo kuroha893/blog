@@ -22,10 +22,10 @@ export async function getBlogCollectionEn() {
     return prod ? !data.draft : true
   })
   
-  // Transform English post IDs from "anygrasp/index-en" to "anygrasp"
+  // Transform English post IDs from "anygrasp/index-en" or "en/anygrasp" to "anygrasp"
   const transformedEnglishPosts = englishPosts.map(post => ({
     ...post,
-    id: post.id.replace(/\/index-en$/, '')
+    id: post.id.replace(/\/index-en$/, '').replace(/^en\//, '')
   }))
   
   // Get all Chinese versions

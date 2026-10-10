@@ -72,10 +72,11 @@ content:
     path: src/content/blogs
     subfolders: true
     format: yaml-frontmatter
-    # Each post lives in its own folder: <slug>/index.mdx (Chinese) and <slug>/index-en.mdx (English).
+    # The filename (without .mdx) becomes the post URL: my-post.mdx -> /blog/my-post
+    # Use lowercase letters, digits and hyphens. Do not name a post "index".
     filename:
-      template: 'my-new-post/index.mdx'
-      field: create
+      template: '{year}{month}{day}-post.mdx'
+      field: true
     view:
       fields: [title, publishDate, category]
       primary: title

@@ -1,4 +1,4 @@
-import profile from './data/profile.json'
+import profile from './data/site-profile'
 import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } from './types'
 
 export const theme: ThemeUserConfig = {
@@ -87,7 +87,7 @@ export const theme: ThemeUserConfig = {
     /** Your Google Scholar profile URL */
     googleScholar: profile.author.googleScholar,
     /** Blog start date for statistics */
-    blogStartDate: profile.author.blogStartDate,
+    blogStartDate: profile.author.blogStartDate || undefined,
     /** Domain configuration */
     domains: {
       main: profile.site.domain || 'example.com',
