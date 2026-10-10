@@ -66,6 +66,165 @@ content:
               - { name: date_en, label: 时间（英文）, type: string }
               - { name: href, label: 链接, type: string, description: 可留空。 }
 
+  - name: about
+    label: About 页面
+    type: file
+    path: src/data/about.json
+    format: json
+    fields:
+      - { name: intro, label: 自我介绍（中文）, type: text, description: 段落之间空一行。 }
+      - { name: intro_en, label: 自我介绍（英文）, type: text, description: 留空则英文页显示中文。 }
+      - name: distributions
+        label: 站点地址
+        description: 显示在“网页分发”一节。全部删除则隐藏该节。
+        type: object
+        list:
+          collapsible:
+            summary: '{title}'
+        fields:
+          - { name: title, label: 名称（中文）, type: string }
+          - { name: title_en, label: 名称（英文）, type: string }
+          - { name: url, label: 地址, type: string, description: 不带 https://，例如 example.com。 }
+          - name: platform
+            label: 平台
+            type: select
+            options:
+              values: [Vercel, GitHub, Cloudflare, Vultr, Other]
+
+  - name: projects
+    label: Projects 页面
+    type: file
+    path: src/data/projects.json
+    format: json
+    fields:
+      - name: projects
+        label: 项目
+        type: object
+        list:
+          collapsible:
+            summary: '{name}'
+        fields:
+          - { name: name, label: 名称（中文）, type: string, required: true }
+          - { name: name_en, label: 名称（英文）, type: string }
+          - { name: description, label: 描述（中文）, type: text }
+          - { name: description_en, label: 描述（英文）, type: text }
+          - name: links
+            label: 链接
+            type: object
+            list: true
+            fields:
+              - name: type
+                label: 类型
+                type: select
+                options:
+                  values:
+                    - { value: site, label: 网站 }
+                    - { value: github, label: GitHub }
+                    - { value: doc, label: 文档 }
+                    - { value: release, label: 发布页 }
+              - { name: href, label: 网址, type: string }
+
+  - name: academic
+    label: Academic 页面
+    type: file
+    path: src/data/academic.json
+    format: json
+    fields:
+      - { name: about, label: 学术简介（中文）, type: text, description: 段落之间空一行。 }
+      - { name: about_en, label: 学术简介（英文）, type: text }
+      - { name: cvUrl, label: 简历链接, type: string, description: 留空则不显示下载按钮。 }
+      - name: interests
+        label: 研究方向
+        description: 全部删除则隐藏该节。
+        type: object
+        list:
+          collapsible:
+            summary: '{title}'
+        fields:
+          - { name: title, label: 名称（中文）, type: string }
+          - { name: title_en, label: 名称（英文）, type: string }
+          - { name: description, label: 描述（中文）, type: text }
+          - { name: description_en, label: 描述（英文）, type: text }
+          - name: icon
+            label: 图标
+            type: string
+            description: simpleicons.org 上的图标名，小写，例如 pytorch、python、ros。可留空。
+      - name: publications
+        label: 论文
+        description: 全部删除则隐藏该节。
+        type: object
+        list:
+          collapsible:
+            summary: '{title}'
+        fields:
+          - { name: title, label: 标题, type: string, required: true }
+          - name: authors
+            label: 作者
+            type: object
+            list:
+              collapsible:
+                summary: '{name}'
+            fields:
+              - { name: name, label: 姓名, type: string }
+              - { name: isMe, label: 是我本人, type: boolean }
+              - { name: isEqual, label: 共同一作, type: boolean }
+              - { name: isCoreContributor, label: 核心贡献者, type: boolean }
+              - { name: homepage, label: 主页, type: string }
+          - { name: venue, label: 会议 / 期刊, type: string }
+          - { name: year, label: 年份, type: string }
+          - name: type
+            label: 类型
+            type: select
+            options:
+              values: [conference, journal, workshop, preprint]
+          - name: status
+            label: 状态
+            type: select
+            options:
+              values: [published, accepted, under-review, preprint]
+          - { name: abstract, label: 摘要, type: text }
+          - name: links
+            label: 链接
+            type: object
+            list: true
+            fields:
+              - name: type
+                label: 类型
+                type: select
+                options:
+                  values: [website, arxiv, pdf, code, video, poster, slides]
+              - { name: href, label: 网址, type: string }
+      - name: openSource
+        label: 开源项目
+        description: 全部删除则隐藏该节。
+        type: object
+        list:
+          collapsible:
+            summary: '{title}'
+        fields:
+          - { name: title, label: 名称（中文）, type: string }
+          - { name: title_en, label: 名称（英文）, type: string }
+          - { name: description, label: 描述（中文）, type: text }
+          - { name: description_en, label: 描述（英文）, type: text }
+          - { name: category, label: 类别, type: string }
+          - name: status
+            label: 状态
+            type: select
+            options:
+              values: [active, completed, archived]
+          - name: links
+            label: 链接
+            type: object
+            list: true
+            fields:
+              - name: type
+                label: 类型
+                type: select
+                options:
+                  values: [github, website, demo, doc, paper, arxiv, video]
+              - { name: href, label: 网址, type: string }
+              - { name: label, label: 按钮文字, type: string }
+
   - name: posts
     label: 文章
     type: collection

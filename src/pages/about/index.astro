@@ -3,40 +3,36 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import AlgorithmShowcase from '@/components/about/AlgorithmShowcase.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 import { Comment } from '@/components/advanced'
-import { DistributionSection, Spoiler } from '@/components/user'
+import { DistributionSection } from '@/components/user'
+import { getAboutPage } from '@/data/site-pages'
+
+const page = getAboutPage('zh')
+const distributions = page.distributions
 
 const headings = [
-  { depth: 2, slug: 'distribution', text: 'Distribution' },
-  { depth: 2, slug: 'tools', text: 'Tools' },
-  { depth: 2, slug: 'copyright', text: 'Copyright' },
-  { depth: 2, slug: 'theme', text: 'Theme' }
+  { depth: 2, slug: 'distribution', text: 'Distribution', show: distributions.length > 0 },
+  { depth: 2, slug: 'tools', text: 'Tools', show: true },
+  { depth: 2, slug: 'copyright', text: 'Copyright', show: true },
+  { depth: 2, slug: 'theme', text: 'Theme', show: true }
 ]
-
-const distributions = [
-  {
-    title: '镜像站 1',
-    url: 'example.com',
-    platform: 'Vercel'
-  },
-  {
-    title: '镜像站 2',
-    url: 'blog.example.com',
-    platform: 'Vultr'
-  }
-]
+  .filter((h) => h.show)
+  .map(({ depth, slug, text }) => ({ depth, slug, text }))
 ---
 
 <PageLayout title='About' {headings} info='/about'>
-  <p>你的职业 / <Spoiler>关于你的一些冷知识</Spoiler></p>
-  <p>
-    在这里写下你的个人简介。你可以介绍你的教育背景、研究方向、工作经历或者兴趣爱好。
-  </p>
-  <h2 id='distribution'>网页分发<a class='anchor' href='#distribution'>#</a></h2>
-  <p>
-    为了提供更好的访问体验和可靠性，本站在多个平台进行了部署，您可以选择合适的镜像站点进行访问：
-  </p>
-  <DistributionSection class='mb-8 mt-6' {distributions} />
-  <p>如果您遇到访问问题，建议尝试其他镜像站点。所有站点内容保持同步更新。</p>
+  {page.intro.map((text) => <p>{text}</p>)}
+  {
+    distributions.length > 0 && (
+      <>
+        <h2 id='distribution'>网页分发<a class='anchor' href='#distribution'>#</a></h2>
+        <p>
+          为了提供更好的访问体验和可靠性，本站在多个平台进行了部署，您可以选择合适的镜像站点进行访问：
+        </p>
+        <DistributionSection class='mb-8 mt-6' {distributions} />
+        <p>如果您遇到访问问题，建议尝试其他镜像站点。所有站点内容保持同步更新。</p>
+      </>
+    )
+  }
   <h2 id='tools'>工具<a class='anchor' href='#tools'>#</a></h2>
   <ToolSection
     class='mb-5'

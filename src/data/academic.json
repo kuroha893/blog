@@ -1,0 +1,56 @@
+{
+  "about": "在此处介绍你的学术背景。例如：我是某某大学的几级本科生/研究生，目前在某个实验室实习或学习，研究方向是某某。\n\n你可以详细描述你的研究动机、目标以及你目前正在关注的具体问题。",
+  "about_en": "Introduce your academic background here. For example: I am a student at [University], currently studying at [Lab]. My research interest is [Topic].\n\nYou can describe your research motivation, goals, and the specific problems you are focusing on.",
+  "cvUrl": "",
+  "interests": [
+    {
+      "title": "研究方向 1",
+      "title_en": "Research Interest 1",
+      "description": "关于该研究方向的详细描述，包括关键词等。",
+      "description_en": "Detailed description of this research interest, including keywords.",
+      "icon": "pytorch"
+    }
+  ],
+  "publications": [
+    {
+      "title": "论文标题：此处填入你的论文题目",
+      "authors": [
+        {
+          "name": "作者 1"
+        },
+        {
+          "name": "作者 2",
+          "isMe": true
+        }
+      ],
+      "venue": "发表会议或期刊名称 (如 CVPR, ECCV)",
+      "year": "2026",
+      "type": "conference",
+      "status": "published",
+      "abstract": "此处填入论文摘要。简要介绍论文的研究背景、方法和主要贡献。",
+      "links": [
+        {
+          "type": "arxiv",
+          "href": "https://arxiv.org"
+        }
+      ]
+    }
+  ],
+  "openSource": [
+    {
+      "title": "项目名称",
+      "title_en": "Project Name",
+      "description": "项目描述：简要介绍该开源项目的功能和用途。",
+      "description_en": "Briefly introduce what this open-source project does.",
+      "category": "项目类别",
+      "status": "active",
+      "links": [
+        {
+          "type": "github",
+          "href": "https://github.com",
+          "label": "Code"
+        }
+      ]
+    }
+  ]
+}

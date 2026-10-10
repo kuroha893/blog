@@ -2,31 +2,20 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 import ProjectSection from '@/components/projects/ProjectSection.astro'
 import config from '@/site-config'
+import { getProjectsPage } from '@/data/site-pages'
+
+const page = getProjectsPage('zh')
 
 const headings = [{ depth: 2, slug: 'projects', text: 'Projects' }]
 ---
 
 <PageLayout title='Projects' {headings} info={{ slug: '/projects', hideComment: true }}>
   <h2 id='projects' class='mb-8 text-2xl font-semibold'>Projects</h2>
-  <ProjectSection
-    project={[
-      {
-        name: '项目 1',
-        description: '项目描述 1。你可以在这里介绍项目的主要功能。',
-        image: 'lumina.webp',
-        links: [{ type: 'site', href: '#' }]
-      },
-      {
-        name: '项目 2',
-        description: '项目描述 2。你可以在这里介绍项目的主要功能。',
-        image: 'byddl.webp',
-        links: [
-          { type: 'site', href: '#' },
-          { type: 'github', href: '#' }
-        ]
-      }
-    ]}
-  />
+  {page.projects.length > 0 ? (
+    <ProjectSection project={page.projects} />
+  ) : (
+    <p class='text-muted-foreground'>这里还没有项目。</p>
+  )}
 </PageLayout>
 
 <script

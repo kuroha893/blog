@@ -1,0 +1,12 @@
+{
+  "intro": "在这里写下你的个人简介。你可以介绍你的教育背景、研究方向、工作经历或者兴趣爱好。\n\n段落之间空一行即可分段。",
+  "intro_en": "Write your personal introduction here. You can introduce your background, interests, or experience.\n\nLeave a blank line between paragraphs.",
+  "distributions": [
+    {
+      "title": "主站",
+      "title_en": "Main site",
+      "url": "blog-pi-ten-89.vercel.app",
+      "platform": "Vercel"
+    }
+  ]
+}

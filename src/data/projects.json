@@ -1,0 +1,32 @@
+{
+  "projects": [
+    {
+      "name": "项目 1",
+      "name_en": "Project 1",
+      "description": "项目描述 1。你可以在这里介绍项目的主要功能。",
+      "description_en": "Project description 1. You can introduce the main features here.",
+      "links": [
+        {
+          "type": "site",
+          "href": "https://example.com"
+        }
+      ]
+    },
+    {
+      "name": "项目 2",
+      "name_en": "Project 2",
+      "description": "项目描述 2。你可以在这里介绍项目的主要功能。",
+      "description_en": "Project description 2. You can introduce the main features here.",
+      "links": [
+        {
+          "type": "site",
+          "href": "https://example.com"
+        },
+        {
+          "type": "github",
+          "href": "https://github.com"
+        }
+      ]
+    }
+  ]
+}
