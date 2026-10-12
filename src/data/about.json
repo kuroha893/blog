@@ -5,6 +5,12 @@
     {
       "title": "主站",
       "title_en": "Main site",
+      "url": "kuroha.xyz",
+      "platform": "Vercel"
+    },
+    {
+      "title": "备用地址",
+      "title_en": "Mirror",
       "url": "blog-pi-ten-89.vercel.app",
       "platform": "Vercel"
     }

@@ -3,7 +3,7 @@
     "title": "Kuroha's Blog",
     "description": "一个基于 Astro 的个人博客",
     "description_en": "A personal blog built with Astro",
-    "domain": "blog-pi-ten-89.vercel.app",
+    "domain": "kuroha.xyz",
     "favicon": ""
   },
   "author": {
